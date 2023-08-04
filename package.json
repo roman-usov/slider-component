@@ -1,0 +1,29 @@
+{
+  "name": "slider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "type": "module",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --colors"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
+  "dependencies": {
+    "core-js": "*",
+    "lodash": "*",
+    "regenerator-runtime": "*"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^9.3.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/user-event": "^14.4.3",
+    "parcel": "^2.9.3",
+    "prettier": "2.8.8"
+  },
+  "author": "",
+  "license": "ISC"
+}
