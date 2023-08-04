@@ -53,8 +53,6 @@ function handleSlideWithArrowKey(model, e) {
 function handleSlidesWithDots(model, e) {
   const clickedDot = e.target;
 
-  console.log('clicked el', clickedDot);
-
   if (!clickedDot.matches('.dots__dot')) return;
 
   const slideNum = clickedDot.dataset.position;
