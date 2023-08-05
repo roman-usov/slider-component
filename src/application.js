@@ -1,5 +1,11 @@
 import Model from './model';
-import { addHandlerForButton, addHandlerForArrowKeys, addHandlerForDots, render } from './view';
+import {
+  addHandlerForButton,
+  addHandlerForArrowKeys,
+  addHandlerForDots,
+  addHandlerForInitialRender,
+  render,
+} from './view';
 
 function nextSlide(model) {
   if (model.getSlideInView() >= model.getNumOfSlides() - 1) {
@@ -63,8 +69,14 @@ function handleSlidesWithDots(model, e) {
   render(model.getSlideData(), model.getSlideInView());
 }
 
+function handleInitialRender(model, initialRender) {
+  render(model.getSlideData(), model.getSlideInView(), initialRender);
+}
+
 export default function slider(initialSlide) {
   const model = new Model(initialSlide);
+
+  addHandlerForInitialRender(model, handleInitialRender);
 
   addHandlerForButton('right', model, handleSlideWithBtn);
   addHandlerForButton('left', model, handleSlideWithBtn);

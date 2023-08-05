@@ -1,18 +1,46 @@
-export function render(slideData, slideInView) {
+export function render(slideData, slideInView, initialRender = false) {
   const slides = document.querySelectorAll('.slide');
   const newActiveSlideEl = document.querySelector(
     `[data-position="${slideInView}"]`
   );
   const prevActiveSlideEl = document.querySelector('.dots__dot--active');
 
-  slides.forEach((slide, i) => {
-    const { distanceFromView } = slideData.find(({ number }) => number === i);
+  if (initialRender) {
+    const slider = document.querySelector('.slider');
 
-    slide.style.transform = `translateX(${distanceFromView})`;
-  });
+    slides.forEach(slide => {
+      slide.style.transition = 'none'; // Temporarily disable transition
+    });
+
+    // Force a reflow to ensure the transition is disabled before applying transforms
+    void slider.offsetWidth;
+
+    slides.forEach((slide, i) => {
+      const { distanceFromView } = slideData.find(({ number }) => number === i);
+      slide.style.transform = `translateX(${distanceFromView})`;
+      slide.style.transition = ''; // Re-enable transition
+    });
+
+    requestAnimationFrame(() => {
+      slider.style.opacity = '1';
+    });
+  } else {
+    slides.forEach((slide, i) => {
+      const { distanceFromView } = slideData.find(({ number }) => number === i);
+
+      slide.style.transform = `translateX(${distanceFromView})`;
+    });
+  }
 
   prevActiveSlideEl.classList.remove('dots__dot--active');
   newActiveSlideEl.classList.add('dots__dot--active');
+}
+
+export function addHandlerForInitialRender(model, handler) {
+  document.addEventListener(
+    'DOMContentLoaded',
+    handler.bind(null, model, true)
+  );
 }
 
 export function addHandlerForButton(direction, model, handler) {
@@ -67,7 +95,7 @@ export function addHandlerForDots(model, handler) {
     const dot = document.createElement('button');
     dot.classList.add('dots__dot');
     dot.setAttribute('data-position', `${i}`);
-    
+
     if (slide.number === model.getSlideInView()) {
       dot.classList.add('dots__dot--active');
     }
