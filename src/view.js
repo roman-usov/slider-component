@@ -60,10 +60,20 @@ export function addHandlerForArrowKeys(model, handler) {
 }
 
 export function addHandlerForDots(model, handler) {
-  const dotEls = document.querySelectorAll('.dots__dot');
-  dotEls.forEach((dotEl, i) => (dotEl.dataset.position = i));
-
   const dotContainerEl = document.querySelector('.dots');
+  const slides = model.getSlideData();
+
+  slides.forEach((slide, i) => {
+    const dot = document.createElement('button');
+    dot.classList.add('dots__dot');
+    dot.setAttribute('data-position', `${i}`);
+    
+    if (slide.number === model.getSlideInView()) {
+      dot.classList.add('dots__dot--active');
+    }
+
+    dotContainerEl.append(dot);
+  });
 
   dotContainerEl.addEventListener('click', handler.bind(null, model));
 }
